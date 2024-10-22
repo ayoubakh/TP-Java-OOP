@@ -2,16 +2,19 @@ package tp3;
 
 public class AnneeEtudiant {
 	
-	private int idEtudiant;
-	private int nombreModules;
-	private ResultatModule[] resModules =  new ResultatModule[20] ;
-	
+	// Attributs
+	private int idEtudiant;  
+	private int nombreModules;  
+	private ResultatModule[] resModules;  
+
+	// Constructeur
 	public AnneeEtudiant(int idEtudiant, int nombreModules, ResultatModule[] resModules) {
 		this.idEtudiant = idEtudiant;
 		this.nombreModules = nombreModules;
 		this.resModules = resModules;
 	}
 
+	// Getters et Setters
 	public int getIdEtudiant() {
 		return idEtudiant;
 	}
@@ -33,44 +36,39 @@ public class AnneeEtudiant {
 	}
 
 	public void setResModules(ResultatModule[] resModules) {
-		this.resModules = resModules;
+		// Vérification si le tableau de modules est non nul avant de l'assigner
+		if (resModules != null) {
+			this.resModules = resModules;
+		} else {
+			System.out.println("Erreur : Le tableau des résultats ne peut pas être nul.");
+		}
 	}
-	
+
+	// Méthode pour calculer la moyenne annuelle de l'étudiant
 	public double moyenneAnnee() {
 		double somme = 0;
-		//int cmpt = 0;
-		for (int i =0; i< this.resModules.length; i++) {
-			if (resModules[i]!=null) {
-				somme+= resModules[i].calcMoyenne();
-				//cmpt++;
+		int compteur = 0;
+		
+		// Calcul de la somme des moyennes de chaque module
+		for (int i = 0; i < this.resModules.length; i++) {
+			if (resModules[i] != null) { 
+				somme += resModules[i].calcMoyenne();
+				compteur++;
 			}
-			
 		}
-		return somme/this.nombreModules;
+		return  somme / compteur ;
 	}
-	
-	
+
+	// Méthode pour compter le nombre de modules validés (moyenne >= 10)
 	public int nombreValides() {
 		int nombreModuleValides = 0;
-		for (int i =0; i< this.resModules.length; i++) {
-			if (resModules[i]!=null) {
-				if (resModules[i].valideModule()) {
-					nombreModuleValides++;}
-				}
+		
+		// Parcours des modules pour vérifier ceux qui sont validés
+		for (int i = 0; i < this.resModules.length; i++) {
+			if (resModules[i] != null && resModules[i].valideModule()) {
+				nombreModuleValides++;
 			}
+		}
 		return nombreModuleValides;
 	}
-	
-	
-	public void modulesEtuidant() {
-		for(int i=0; i<resModules.length; i++) {
-			if (resModules[i]!=null)
-			System.out.println(resModules[i].toString());
-		}
-	}
-	
-	
-	
-	
-
 }
